@@ -16,14 +16,17 @@ public class ByteCodeUtils {
      * @throws IOException
      */
     public static void savaToFile(String className, byte[] byteCode) throws IOException {
-        File file = new File("/tmp/" + className + ".class");
+        File path = new File("./tmp");
+        if (!path.exists()) {
+            path.mkdir();
+        }
+        File file = new File("./tmp/" + className + ".class");
         if ((!file.exists() || file.delete()) && file.createNewFile()) {
             try (FileOutputStream fos = new FileOutputStream(file)) {
                 fos.write(byteCode);
             }
         }
     }
-
     /**
      * 根据方法描述符获取方法参数
      *

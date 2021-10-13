@@ -1,6 +1,5 @@
 package com.jungle;
 
-import jdk.internal.instrumentation.ClassInstrumentation;
 
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
@@ -12,9 +11,11 @@ public class BusinessClassFileTransformer implements ClassFileTransformer {
         if (className.startsWith("java") || className.startsWith("sun")) {
             return null;
         }
-        if (classBeingRedefined.isInterface()) {
+
+        if (!className.startsWith("com/jungle")) {
             return null;
         }
+        System.err.println(className + "==>" + classBeingRedefined);
         return ClassInstrumentationFactory.modifyClass(classfileBuffer);
     }
 }

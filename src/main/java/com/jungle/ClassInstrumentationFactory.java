@@ -1,9 +1,12 @@
 package com.jungle;
 
 
+import com.jungle.util.ByteCodeUtils;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
+
+import java.io.IOException;
 
 public class ClassInstrumentationFactory {
 
@@ -15,6 +18,12 @@ public class ClassInstrumentationFactory {
         ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
         MyClassAdapter adapter = new MyClassAdapter(classReader.getClassName(), classWriter);
         classReader.accept(adapter, 0);
-        return classWriter.toByteArray();
+        byte[] bytes = classWriter.toByteArray();
+        try {
+            ByteCodeUtils.savaToFile(classReader.getClassName().replaceAll("/", "."), bytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bytes;
     }
 }

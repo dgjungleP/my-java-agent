@@ -26,11 +26,11 @@ public class MyClassAdapter extends ClassVisitor {
     }
 
     private boolean check(int access, String name) {
-        boolean result = ((access & ACC_PRIVATE) == 0);
-        result |= ((access & ACC_ABSTRACT) == 0);
-        result |= ((access & ACC_NATIVE) == 0);
-        result |= ((access & ACC_BRIDGE) == 0);
-        result |= ((access & ACC_SYNTHETIC) == 0);
+        boolean result = ((access & ACC_PRIVATE) != 0);
+        result |= ((access & ACC_ABSTRACT) != 0);
+        result |= ((access & ACC_NATIVE) != 0);
+        result |= ((access & ACC_BRIDGE) != 0);
+        result |= ((access & ACC_SYNTHETIC) != 0);
         result |= "<init>".endsWith(name);
         result |= "<clinit>".endsWith(name);
         return result;
